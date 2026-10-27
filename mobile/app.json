@@ -8,7 +8,10 @@
     "userInterfaceStyle": "light",
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.fleetmanagement.track.utility"
+      "bundleIdentifier": "com.fleetmanagement.trackutllity",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -18,7 +21,7 @@
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
       "predictiveBackGestureEnabled": false,
-      "package": "com.fleetmanagement.track.utility"
+      "package": "com.fleetmanagement.trackutllity"
     },
     "web": {
       "favicon": "./assets/favicon.png"
