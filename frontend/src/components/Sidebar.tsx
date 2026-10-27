@@ -28,22 +28,24 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onOpenAuth,
 }) => {
   return (
-    <aside style={{
-      width: '74px',
-      background: '#ffffff',
-      borderRadius: '32px',
-      padding: '20px 0',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      boxShadow: '0 10px 30px -4px rgba(18, 24, 38, 0.05)',
-      border: '1px solid #eef2f6',
-      margin: '0 0 24px 24px',
-      height: 'calc(100vh - 120px)',
-      position: 'sticky',
-      top: '100px'
-    }}>
+    <aside 
+      className="desktop-sidebar"
+      style={{
+        width: '74px',
+        background: '#ffffff',
+        borderRadius: '32px',
+        padding: '20px 0',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        boxShadow: '0 10px 30px -4px rgba(18, 24, 38, 0.05)',
+        border: '1px solid #eef2f6',
+        margin: '0 0 24px 24px',
+        height: 'calc(100vh - 120px)',
+        position: 'sticky',
+        top: '100px'
+      }}
+    >
       {/* Top Navigation Group */}
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px' }}>
         {/* Main Dashboard / Analytics */}
@@ -226,3 +228,43 @@ export const Sidebar: React.FC<SidebarProps> = ({
     </aside>
   );
 };
+
+interface MobileBottomNavProps {
+  activeTab: string;
+  setActiveTab: (tab: string) => void;
+}
+
+export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
+  activeTab,
+  setActiveTab,
+}) => {
+  const items = [
+    { id: 'analytics', label: 'Dashboard', icon: LayoutGrid },
+    { id: 'riders', label: 'Riders', icon: Users },
+    { id: 'packages', label: 'Packages', icon: Package },
+    { id: 'invoices', label: 'Invoices', icon: FileText },
+    { id: 'finance', label: 'Finance', icon: Wallet },
+    { id: 'sales', label: 'Sales', icon: Percent },
+  ];
+
+  return (
+    <nav className="mobile-bottom-nav" aria-label="Mobile Navigation">
+      {items.map((item) => {
+        const Icon = item.icon;
+        const isActive = activeTab === item.id;
+        return (
+          <button
+            key={item.id}
+            onClick={() => setActiveTab(item.id)}
+            className={`mobile-nav-item ${isActive ? 'active' : ''}`}
+            aria-label={item.label}
+          >
+            <Icon size={18} strokeWidth={isActive ? 2.5 : 2} />
+            <span>{item.label}</span>
+          </button>
+        );
+      })}
+    </nav>
+  );
+};
+

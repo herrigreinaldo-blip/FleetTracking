@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Navbar } from '../components/Navbar';
-import { Sidebar } from '../components/Sidebar';
+import { Sidebar, MobileBottomNav } from '../components/Sidebar';
 import { AnalyticsTab } from '../components/AnalyticsTab';
 import { RidersTab } from '../components/RidersTab';
 import { PackagesTab } from '../components/PackagesTab';
@@ -130,18 +130,21 @@ export default function Home() {
   // =========================================================================
   if (!currentUser) {
     return (
-      <div style={{
-        minHeight: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#0a1d13',
-        backgroundImage: 'radial-gradient(circle at 50% 20%, #0d6942 0%, #062b1a 65%, #04160d 100%)',
-        padding: '24px',
-        position: 'relative',
-        overflow: 'hidden'
-      }}>
+      <div 
+        className="gate-card-wrapper"
+        style={{
+          minHeight: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: '#0a1d13',
+          backgroundImage: 'radial-gradient(circle at 50% 20%, #0d6942 0%, #062b1a 65%, #04160d 100%)',
+          padding: '24px',
+          position: 'relative',
+          overflow: 'hidden'
+        }}
+      >
         {/* Subtle Background Geometry */}
         <div style={{
           position: 'absolute',
@@ -167,17 +170,20 @@ export default function Home() {
         }} />
 
         {/* Central Sign-In Card */}
-        <div style={{
-          width: '100%',
-          maxWidth: '460px',
-          background: '#ffffff',
-          borderRadius: '28px',
-          padding: '36px',
-          boxShadow: '0 25px 60px -15px rgba(0, 0, 0, 0.5), 0 0 40px rgba(13, 105, 66, 0.2)',
-          border: '1px solid rgba(255, 255, 255, 0.2)',
-          position: 'relative',
-          zIndex: 1
-        }}>
+        <div 
+          className="gate-card"
+          style={{
+            width: '100%',
+            maxWidth: '460px',
+            background: '#ffffff',
+            borderRadius: '28px',
+            padding: '36px',
+            boxShadow: '0 25px 60px -15px rgba(0, 0, 0, 0.5), 0 0 40px rgba(13, 105, 66, 0.2)',
+            border: '1px solid rgba(255, 255, 255, 0.2)',
+            position: 'relative',
+            zIndex: 1
+          }}
+        >
           {/* Logo & Brand Header */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '22px' }}>
             <div style={{
@@ -448,7 +454,7 @@ export default function Home() {
             <span style={{ display: 'block', fontSize: '11px', fontWeight: 700, letterSpacing: '0.5px', color: '#94a3b8', textAlign: 'center', marginBottom: '10px' }}>
               QUICK DEMO ACCESS
             </span>
-            <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
+            <div style={{ display: 'flex', gap: '8px', justifyContent: 'center', flexWrap: 'wrap' }}>
               <button
                 type="button"
                 onClick={() => setGateCredentials('herrigreinaldo@gmail.com', '132Careras@!')}
@@ -494,15 +500,18 @@ export default function Home() {
         </div>
 
         {/* Bottom Status Indicators */}
-        <div style={{
-          display: 'flex',
-          gap: '24px',
-          marginTop: '24px',
-          color: '#a7f3d0',
-          fontSize: '12px',
-          fontWeight: 500,
-          opacity: 0.85
-        }}>
+        <div 
+          className="gate-status-footer"
+          style={{
+            display: 'flex',
+            gap: '24px',
+            marginTop: '24px',
+            color: '#a7f3d0',
+            fontSize: '12px',
+            fontWeight: 500,
+            opacity: 0.85
+          }}
+        >
           <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
             <CheckCircle2 size={14} color="#34d399" /> 256-Bit SSL Enforced
           </span>
@@ -531,8 +540,8 @@ export default function Home() {
         onLogout={handleLogout}
       />
 
-      {/* Main Content Layout with Floating Left Sidebar */}
-      <div style={{ display: 'flex', flex: 1, paddingRight: '24px', gap: '20px' }}>
+      {/* Main Content Layout with Floating Left Sidebar on Desktop & Bottom Nav on Mobile */}
+      <div className="app-main-layout">
         {/* Floating Left Sidebar Dock */}
         <Sidebar
           activeTab={activeTab}
@@ -543,7 +552,7 @@ export default function Home() {
         />
 
         {/* Tab Content Display */}
-        <main style={{ flex: 1, paddingBottom: '40px', minWidth: 0 }}>
+        <main style={{ flex: 1, minWidth: 0 }}>
           {activeTab === 'analytics' && (
             <AnalyticsTab 
               userName={currentUser?.fullName || 'Reinaldo'} 
@@ -557,6 +566,12 @@ export default function Home() {
           {activeTab === 'sales' && <SalesTab />}
         </main>
       </div>
+
+      {/* Mobile Bottom Navigation Dock */}
+      <MobileBottomNav
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+      />
 
       {/* Auth Modal for in-app credential updates */}
       <AuthModal

@@ -80,10 +80,12 @@ export const AuthModal: React.FC<AuthModalProps> = ({
         className="modal-animate"
         style={{
           background: '#ffffff',
-          borderRadius: '32px',
+          borderRadius: '28px',
           width: '100%',
           maxWidth: '460px',
-          padding: '36px',
+          maxHeight: '90vh',
+          overflowY: 'auto',
+          padding: '30px 24px',
           boxShadow: '0 25px 60px -12px rgba(13, 105, 66, 0.25)',
           border: '1px solid #e2e8f0',
           position: 'relative',

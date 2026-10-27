@@ -130,7 +130,7 @@ export const FinanceTab: React.FC = () => {
       </div>
 
       {/* Top 3 Metric Cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '20px' }}>
+      <div className="stat-cards-grid">
         <div className="quix-card">
           <span style={{ fontSize: '12px', color: '#64748b' }}>Platform Net Liquidity</span>
           <div style={{ fontSize: '32px', fontWeight: 800, color: '#121826', margin: '6px 0 8px' }}>
@@ -182,7 +182,7 @@ export const FinanceTab: React.FC = () => {
           </button>
         </div>
 
-        <div style={{ overflowX: 'auto' }}>
+        <div className="table-responsive">
           <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
             <thead>
               <tr style={{ background: '#f8fafc', borderBottom: '1px solid #e2e8f0', color: '#64748b', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>

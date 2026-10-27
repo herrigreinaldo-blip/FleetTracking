@@ -187,3 +187,206 @@ input, select, textarea {
 .modal-animate {
   animation: fadeInScale 0.2s ease-out forwards;
 }
+
+/* ==========================================================================
+   Mobile Responsive Utilities & Layout Classes
+   ========================================================================== */
+
+.desktop-only {
+  display: flex !important;
+}
+
+.mobile-only {
+  display: none !important;
+}
+
+.desktop-grid {
+  display: grid;
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.table-responsive::-webkit-scrollbar {
+  height: 4px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+/* App Navbar */
+.app-navbar {
+  margin: 16px 24px;
+  padding: 16px 36px;
+  border-radius: 26px;
+  transition: all 0.2s ease;
+}
+
+/* App Main Container Layout */
+.app-main-layout {
+  display: flex;
+  flex: 1;
+  padding-right: 24px;
+  gap: 20px;
+}
+
+/* Sidebar Container */
+.desktop-sidebar {
+  display: flex;
+}
+
+/* Mobile Bottom Navigation Bar */
+.mobile-bottom-nav {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid #e2e8f0;
+  padding: 8px 12px calc(8px + env(safe-area-inset-bottom, 0px));
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.06);
+  justify-content: space-around;
+  align-items: center;
+}
+
+.mobile-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  background: none;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 12px;
+  color: #64748b;
+  font-size: 10px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  min-width: 52px;
+}
+
+.mobile-nav-item.active {
+  color: var(--primary-green);
+  background: var(--primary-green-light);
+}
+
+/* Analytics Tab Grids */
+.analytics-top-grid {
+  display: grid;
+  grid-template-columns: minmax(280px, 1fr) minmax(360px, 1.4fr) minmax(290px, 1fr);
+  gap: 20px;
+}
+
+.analytics-bottom-grid {
+  display: grid;
+  grid-template-columns: minmax(450px, 1.8fr) minmax(280px, 1fr);
+  gap: 20px;
+}
+
+/* General Stats Grid */
+.stat-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+/* ==========================================================================
+   Media Queries for Tablet & Mobile Responsiveness
+   ========================================================================== */
+
+@media (max-width: 1024px) {
+  .analytics-top-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .analytics-bottom-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .desktop-only {
+    display: none !important;
+  }
+
+  .mobile-only {
+    display: flex !important;
+  }
+
+  .desktop-sidebar {
+    display: none !important;
+  }
+
+  .mobile-bottom-nav {
+    display: flex !important;
+  }
+
+  .app-main-layout {
+    flex-direction: column;
+    padding-right: 0;
+    padding-left: 0;
+    padding-bottom: 70px;
+    gap: 12px;
+  }
+
+  .app-navbar {
+    margin: 10px 10px 8px 10px !important;
+    padding: 12px 14px !important;
+    border-radius: 18px !important;
+  }
+
+  .quix-card {
+    padding: 18px 14px;
+    border-radius: 20px;
+  }
+
+  .stat-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  /* Gated card padding */
+  .gate-card-wrapper {
+    padding: 16px 12px !important;
+  }
+
+  .gate-card {
+    padding: 24px 18px !important;
+    border-radius: 22px !important;
+  }
+
+  .gate-status-footer {
+    flex-direction: column !important;
+    gap: 10px !important;
+    align-items: center !important;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .stat-cards-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .quix-card {
+    padding: 16px 12px;
+    border-radius: 16px;
+  }
+
+  .gate-card {
+    padding: 20px 14px !important;
+  }
+}
+

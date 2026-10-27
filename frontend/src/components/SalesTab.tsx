@@ -24,7 +24,7 @@ export const SalesTab: React.FC = () => {
       </div>
 
       {/* Top Cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '20px' }}>
+      <div className="stat-cards-grid">
         <div className="quix-card">
           <span style={{ fontSize: '12px', color: '#64748b' }}>Gross Merchandise Value (GMV)</span>
           <div style={{ fontSize: '32px', fontWeight: 800, color: '#121826', margin: '6px 0 8px' }}>

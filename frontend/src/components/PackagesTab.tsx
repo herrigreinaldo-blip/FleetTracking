@@ -191,7 +191,7 @@ export const PackagesTab: React.FC = () => {
       </div>
 
       {/* Quick Status Stats */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px' }}>
+      <div className="stat-cards-grid">
         <div className="quix-card" style={{ padding: '18px 22px' }}>
           <span style={{ fontSize: '12px', color: '#64748b' }}>Total Dispatched</span>
           <div style={{ fontSize: '26px', fontWeight: 800, color: '#121826', marginTop: '4px' }}>
@@ -263,7 +263,7 @@ export const PackagesTab: React.FC = () => {
 
       {/* Packages List */}
       <div className="quix-card" style={{ padding: '0px', overflow: 'hidden' }}>
-        <div style={{ overflowX: 'auto' }}>
+        <div className="table-responsive">
           <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
             <thead>
               <tr style={{ background: '#f8fafc', borderBottom: '1px solid #e2e8f0', color: '#64748b', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>

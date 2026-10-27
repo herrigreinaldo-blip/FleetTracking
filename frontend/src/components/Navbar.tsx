@@ -28,32 +28,33 @@ export const Navbar: React.FC<NavbarProps> = ({
   ];
 
   return (
-    <header style={{
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      padding: '16px 36px',
-      background: '#ffffff',
-      borderRadius: '26px',
-      margin: '16px 24px',
-      boxShadow: '0 8px 24px -6px rgba(18, 24, 38, 0.04)',
-      border: '1px solid #eef2f6'
-    }}>
+    <header 
+      className="app-navbar"
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        background: '#ffffff',
+        border: '1px solid #eef2f6',
+        boxShadow: '0 8px 24px -6px rgba(18, 24, 38, 0.04)'
+      }}
+    >
       {/* Brand Logo */}
       <div 
         onClick={() => setActiveTab('analytics')}
-        style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer' }}
+        style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}
       >
         <div style={{
-          width: '38px',
-          height: '38px',
+          width: '36px',
+          height: '36px',
           borderRadius: '50%',
           background: 'linear-gradient(135deg, #0d6942 0%, #15803d 100%)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           boxShadow: '0 4px 12px rgba(13, 105, 66, 0.25)',
-          position: 'relative'
+          position: 'relative',
+          flexShrink: 0
         }}>
           <div style={{
             width: '18px',
@@ -72,16 +73,17 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <span style={{
-            fontSize: '18px',
+            fontSize: '17px',
             fontWeight: '800',
             letterSpacing: '-0.3px',
             color: '#102a1c',
-            fontFamily: "'Plus Jakarta Sans', sans-serif"
+            fontFamily: "'Plus Jakarta Sans', sans-serif",
+            lineHeight: 1.2
           }}>
             Fleet Tracking
           </span>
           <span style={{
-            fontSize: '10px',
+            fontSize: '9px',
             fontWeight: '700',
             letterSpacing: '0.8px',
             textTransform: 'uppercase',
@@ -92,16 +94,18 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
       </div>
 
-      {/* Pill Navigation Bar */}
-      <nav style={{
-        display: 'flex',
-        alignItems: 'center',
-        background: '#f8fafc',
-        borderRadius: '9999px',
-        padding: '5px 8px',
-        border: '1px solid #e2e8f0',
-        gap: '4px'
-      }}>
+      {/* Pill Navigation Bar - Desktop only */}
+      <nav 
+        className="desktop-only"
+        style={{
+          alignItems: 'center',
+          background: '#f8fafc',
+          borderRadius: '9999px',
+          padding: '5px 8px',
+          border: '1px solid #e2e8f0',
+          gap: '4px'
+        }}
+      >
         {tabs.map((tab) => {
           const isActive = activeTab === tab.id;
           return (
@@ -126,30 +130,30 @@ export const Navbar: React.FC<NavbarProps> = ({
       </nav>
 
       {/* Right Tools & User Profile */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
         <button 
           title="Search"
+          className="desktop-only"
           style={{
-            width: '38px',
-            height: '38px',
+            width: '36px',
+            height: '36px',
             borderRadius: '50%',
             background: '#f8fafc',
             border: '1px solid #e2e8f0',
-            display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             color: '#475569',
             transition: 'background 0.2s',
           }}
         >
-          <Search size={17} />
+          <Search size={16} />
         </button>
 
         <button 
           title="Notifications"
           style={{
-            width: '38px',
-            height: '38px',
+            width: '36px',
+            height: '36px',
             borderRadius: '50%',
             background: '#f8fafc',
             border: '1px solid #e2e8f0',
@@ -160,11 +164,11 @@ export const Navbar: React.FC<NavbarProps> = ({
             position: 'relative'
           }}
         >
-          <Bell size={17} />
+          <Bell size={16} />
           <span style={{
             position: 'absolute',
-            top: '7px',
-            right: '8px',
+            top: '6px',
+            right: '7px',
             width: '7px',
             height: '7px',
             background: '#10b981',
@@ -174,7 +178,7 @@ export const Navbar: React.FC<NavbarProps> = ({
         </button>
 
         {currentUser ? (
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginLeft: '6px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginLeft: '2px' }}>
             <div 
               onClick={onLogout}
               title={`Logged in as ${currentUser.email} (${currentUser.roles.join(', ') || 'User'}). Click to Sign Out.`}
@@ -183,15 +187,15 @@ export const Navbar: React.FC<NavbarProps> = ({
                 alignItems: 'center',
                 gap: '8px',
                 background: '#f8fafc',
-                padding: '4px 12px 4px 6px',
+                padding: '4px 10px 4px 5px',
                 borderRadius: '9999px',
                 border: '1px solid #e2e8f0',
                 cursor: 'pointer'
               }}
             >
               <div style={{
-                width: '32px',
-                height: '32px',
+                width: '30px',
+                height: '30px',
                 borderRadius: '50%',
                 background: '#0d6942',
                 color: '#ffffff',
@@ -203,11 +207,11 @@ export const Navbar: React.FC<NavbarProps> = ({
               }}>
                 {currentUser.fullName ? currentUser.fullName[0].toUpperCase() : 'U'}
               </div>
-              <div style={{ display: 'flex', flexDirection: 'column' }}>
-                <span style={{ fontSize: '13px', fontWeight: 600, color: '#1e293b' }}>
+              <div className="desktop-only" style={{ flexDirection: 'column' }}>
+                <span style={{ fontSize: '12px', fontWeight: 600, color: '#1e293b' }}>
                   {currentUser.fullName || currentUser.email.split('@')[0]}
                 </span>
-                <span style={{ fontSize: '11px', color: '#10b981', fontWeight: 600 }}>
+                <span style={{ fontSize: '10px', color: '#10b981', fontWeight: 600 }}>
                   {currentUser.roles[0] || 'Member'}
                 </span>
               </div>
@@ -220,20 +224,20 @@ export const Navbar: React.FC<NavbarProps> = ({
               style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '6px',
-                padding: '8px 14px',
+                gap: '4px',
+                padding: '7px 12px',
                 borderRadius: '9999px',
                 background: '#fee2e2',
                 color: '#b91c1c',
-                fontSize: '12px',
+                fontSize: '11px',
                 fontWeight: 600,
                 border: '1px solid #fecaca',
                 cursor: 'pointer',
                 transition: 'all 0.2s'
               }}
             >
-              <LogOut size={13} />
-              <span>Sign Out</span>
+              <LogOut size={12} />
+              <span className="desktop-only">Sign Out</span>
             </button>
           </div>
         ) : (
@@ -242,17 +246,17 @@ export const Navbar: React.FC<NavbarProps> = ({
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '8px',
-              padding: '8px 18px',
+              gap: '6px',
+              padding: '7px 14px',
               borderRadius: '9999px',
               background: '#0d6942',
               color: '#ffffff',
               fontWeight: 600,
-              fontSize: '13px',
+              fontSize: '12px',
               boxShadow: '0 4px 12px rgba(13, 105, 66, 0.2)'
             }}
           >
-            <LogIn size={15} />
+            <LogIn size={14} />
             <span>Sign In</span>
           </button>
         )}

@@ -107,11 +107,7 @@ export const AnalyticsTab: React.FC<AnalyticsTabProps> = ({
       </div>
 
       {/* Top Cards Row: 3 Columns */}
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'minmax(280px, 1fr) minmax(360px, 1.4fr) minmax(290px, 1fr)',
-        gap: '22px'
-      }}>
+      <div className="analytics-top-grid">
         {/* Card 1: Fleet Operations & Corporate Fuel Card */}
         <div className="quix-card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
           <div>
@@ -449,11 +445,7 @@ export const AnalyticsTab: React.FC<AnalyticsTabProps> = ({
       </div>
 
       {/* Bottom Cards Row: 2 Columns */}
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'minmax(450px, 1.8fr) minmax(280px, 1fr)',
-        gap: '22px'
-      }}>
+      <div className="analytics-bottom-grid">
         {/* Card 4: Recent Fleet Dispatch & Delivery Log */}
         <div className="quix-card">
           <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '18px' }}>
