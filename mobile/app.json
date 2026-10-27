@@ -22,6 +22,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "8780be59-aa6f-4b5f-9a45-8f3df8d36d34"
+      }
+    },
+    "owner": "umer.farooq"
   }
 }
