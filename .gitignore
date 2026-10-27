@@ -1,0 +1,47 @@
+# Environment and Secrets
+backend/appsettings.Development.json
+*.env
+*.env.local
+!*.env.example
+
+# Credentials and Keys
+*.p8
+*.p12
+*.cer
+*.mobileprovision
+mobile/credentials/*.p8
+mobile/credentials/*.cer
+mobile/credentials/*.p12
+mobile/credentials/*.mobileprovision
+
+# OS & Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# .NET / C#
+backend/bin/
+backend/obj/
+*.user
+*.suo
+
+# Node & Frontend
+node_modules/
+frontend/node_modules/
+mobile/node_modules/
+frontend/.next/
+frontend/out/
+mobile/.expo/
+mobile/dist/
+mobile/web-build/
+*.tsbuildinfo
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+mobile/.env.example
+backend/.env.example
+mobile/eas.json

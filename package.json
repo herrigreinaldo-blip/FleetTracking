@@ -1,0 +1,10 @@
+{
+  "name": "delivery-finance-root",
+  "version": "1.0.0",
+  "description": "Fleet Tracking Management System orchestrator",
+  "scripts": {
+    "start": "./start_all.sh",
+    "dev": "./start_all.sh",
+    "sync": "./git_sync.sh"
+  }
+}

@@ -1,0 +1,189 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  --bg-main: #eff2f6;
+  --card-bg: #ffffff;
+  --primary-green: #0d6942;
+  --primary-green-hover: #0a5434;
+  --primary-green-light: #e8f5ee;
+  --accent-mint: #10b981;
+  --accent-mint-bg: #d1fae5;
+  --accent-mint-text: #065f46;
+  --text-dark: #121826;
+  --text-muted: #6b778c;
+  --text-light: #9aa5b8;
+  --border-subtle: #e5e9f0;
+  --border-focus: #0d6942;
+  --danger: #ef4444;
+  --danger-light: #fee2e2;
+  --warning: #f59e0b;
+  --warning-light: #fef3c7;
+  --info: #3b82f6;
+  --info-light: #dbeafe;
+  --radius-card: 24px;
+  --radius-pill: 9999px;
+  --radius-sm: 12px;
+  --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.02);
+  --shadow-card: 0 10px 30px -4px rgba(18, 24, 38, 0.04), 0 4px 10px -2px rgba(18, 24, 38, 0.02);
+  --shadow-floating: 0 20px 40px -8px rgba(13, 105, 66, 0.15), 0 8px 16px -4px rgba(0, 0, 0, 0.06);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-main);
+  color: var(--text-dark);
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  outline: none;
+}
+
+input, select, textarea {
+  font-family: inherit;
+  outline: none;
+}
+
+/* Quixotic Card Container */
+.quix-card {
+  background: var(--card-bg);
+  border-radius: var(--radius-card);
+  padding: 24px;
+  box-shadow: var(--shadow-card);
+  border: 1px solid rgba(229, 233, 240, 0.7);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.quix-card:hover {
+  box-shadow: 0 14px 34px -4px rgba(18, 24, 38, 0.06);
+}
+
+/* Diagonal Stripe Bar for Engagement Chart */
+.bar-striped {
+  background: repeating-linear-gradient(
+    -45deg,
+    #7bbfa0,
+    #7bbfa0 4px,
+    #93ccb3 4px,
+    #93ccb3 9px
+  );
+  border-radius: 20px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.bar-striped:hover {
+  filter: brightness(0.92);
+  transform: scaleY(1.03);
+}
+
+.bar-active {
+  background: var(--primary-green);
+  border-radius: 20px;
+  box-shadow: 0 8px 18px rgba(13, 105, 66, 0.3);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Pill Badges */
+.pill-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.badge-mint {
+  background-color: var(--accent-mint-bg);
+  color: var(--accent-mint-text);
+}
+
+.badge-dark-pill {
+  background-color: var(--primary-green);
+  color: #ffffff;
+}
+
+/* Buttons */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: var(--primary-green);
+  color: #ffffff;
+  padding: 10px 22px;
+  border-radius: var(--radius-pill);
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-green-hover);
+  box-shadow: 0 4px 14px rgba(13, 105, 66, 0.25);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: #ffffff;
+  color: var(--text-dark);
+  border: 1px solid var(--border-subtle);
+  padding: 10px 22px;
+  border-radius: var(--radius-pill);
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background-color: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Modal Animation */
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.modal-animate {
+  animation: fadeInScale 0.2s ease-out forwards;
+}
