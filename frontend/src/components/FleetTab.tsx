@@ -46,6 +46,8 @@ export const FleetTab: React.FC = () => {
   const [selectedVan, setSelectedVan] = useState<string>('KR23XYZ');
   const [activeSubTab, setActiveSubTab] = useState<'vehicles' | 'deposits' | 'documents'>('vehicles');
   const [isServiceModalOpen, setIsServiceModalOpen] = useState<boolean>(false);
+  const [isOnboardModalOpen, setIsOnboardModalOpen] = useState<boolean>(false);
+  const [toastNotice, setToastNotice] = useState<string | null>(null);
 
   // Form State for Service Modal
   const [serviceDate, setServiceDate] = useState('2026-10-14');
@@ -55,7 +57,20 @@ export const FleetTab: React.FC = () => {
   const [serviceParts, setServiceParts] = useState('148.46');
   const [serviceGarage, setServiceGarage] = useState('SAM MOTORS');
 
-  const vehicles: VehicleCard[] = [
+  // Form State for Vehicle Onboarding Modal
+  const [onboardReg, setOnboardReg] = useState('');
+  const [onboardMake, setOnboardMake] = useState('MERCEDES');
+  const [onboardModel, setOnboardModel] = useState('SPRINTER 315 CDI');
+  const [onboardYear, setOnboardYear] = useState('2024');
+  const [onboardFuel, setOnboardFuel] = useState<'Diesel' | 'Electric'>('Diesel');
+  const [onboardMileage, setOnboardMileage] = useState('42000');
+  const [onboardCompany, setOnboardCompany] = useState('MS Herrig Ltd');
+  const [onboardDriver, setOnboardDriver] = useState('');
+  const [onboardMotDays, setOnboardMotDays] = useState('365');
+  const [onboardFinance, setOnboardFinance] = useState('£450.00');
+  const [onboardOwnership, setOnboardOwnership] = useState('Financed (Close Brothers)');
+
+  const [vehiclesList, setVehiclesList] = useState<VehicleCard[]>([
     {
       id: 'KR23XYZ',
       reg: 'KR23 XYZ',
@@ -136,7 +151,7 @@ export const FleetTab: React.FC = () => {
       totalSpentRepairs: '£0.00',
       ownership: 'Subcontractor Owned'
     }
-  ];
+  ]);
 
   // Maintenance history extracted from KR23XYZ sheet
   const serviceHistory = [
@@ -161,9 +176,61 @@ export const FleetTab: React.FC = () => {
     { driver: 'Bruno Carvalho', drNumber: 'DR09099', installments: 0, target: 1000, current: 0, status: 'Pending Start', dates: 'None' },
   ];
 
+  const handleOnboardVehicle = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!onboardReg.trim()) return;
+
+    const newVehicle: VehicleCard = {
+      id: onboardReg.replace(/\s+/g, '').toUpperCase(),
+      reg: onboardReg.trim().toUpperCase(),
+      make: onboardMake,
+      model: onboardModel,
+      year: parseInt(onboardYear, 10) || 2024,
+      fuel: onboardFuel,
+      mileage: parseInt(onboardMileage, 10) || 40000,
+      company: onboardCompany,
+      currentDriver: onboardDriver.trim() || 'Unassigned Subcontractor',
+      motDue: '2027-10-28',
+      motDays: parseInt(onboardMotDays, 10) || 365,
+      taxDue: '2027-05-01',
+      taxDays: 180,
+      insuranceDue: '2027-04-15',
+      insuranceDays: 160,
+      monthlyFinance: onboardFinance.startsWith('£') ? onboardFinance : `£${onboardFinance}`,
+      totalSpentRepairs: '£0.00',
+      ownership: onboardOwnership
+    };
+
+    setVehiclesList([newVehicle, ...vehiclesList]);
+    setSelectedVan(newVehicle.id);
+    setIsOnboardModalOpen(false);
+    setOnboardReg('');
+    setToastNotice(`Vehicle ${newVehicle.reg} onboarded to ${newVehicle.company}!`);
+    setTimeout(() => setToastNotice(null), 3500);
+  };
+
   return (
     <div style={{ padding: '0 24px 32px 24px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
       
+      {/* Toast Notification */}
+      {toastNotice && (
+        <div style={{
+          background: '#0d6942',
+          color: '#ffffff',
+          padding: '12px 20px',
+          borderRadius: '12px',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+          fontWeight: 700,
+          fontSize: '13px',
+          boxShadow: '0 4px 14px rgba(13, 105, 66, 0.3)'
+        }}>
+          <CheckCircle2 size={16} color="#ffffff" />
+          <span>{toastNotice}</span>
+        </div>
+      )}
+
       {/* Header Banner */}
       <div style={{
         background: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)',
@@ -189,7 +256,7 @@ export const FleetTab: React.FC = () => {
             }}>
               FLEET & COMPLIANCE COMMAND
             </span>
-            <span style={{ fontSize: '13px', color: '#94a3b8' }}>10 Vehicles Active in Fleet</span>
+            <span style={{ fontSize: '13px', color: '#94a3b8' }}>{vehiclesList.length} Vehicles Active in Fleet</span>
           </div>
           <h1 style={{ fontSize: '24px', fontWeight: 800, letterSpacing: '-0.5px', margin: 0 }}>
             Fleet Telemetry, Document Vault & Compliance Watchdog
@@ -199,9 +266,9 @@ export const FleetTab: React.FC = () => {
           </p>
         </div>
 
-        <div style={{ display: 'flex', gap: '10px' }}>
+        <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
           <button
-            onClick={() => setIsServiceModalOpen(true)}
+            onClick={() => setIsOnboardModalOpen(true)}
             style={{
               display: 'inline-flex',
               alignItems: 'center',
@@ -218,6 +285,26 @@ export const FleetTab: React.FC = () => {
             }}
           >
             <Plus size={16} />
+            <span>Onboard New Vehicle</span>
+          </button>
+
+          <button
+            onClick={() => setIsServiceModalOpen(true)}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              background: 'rgba(255, 255, 255, 0.12)',
+              color: '#ffffff',
+              fontWeight: 700,
+              fontSize: '13px',
+              padding: '10px 18px',
+              borderRadius: '9999px',
+              border: '1px solid rgba(255, 255, 255, 0.25)',
+              cursor: 'pointer'
+            }}
+          >
+            <Wrench size={16} />
             <span>Log Service / Repair</span>
           </button>
         </div>
@@ -262,7 +349,7 @@ export const FleetTab: React.FC = () => {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
           {/* Van Selector Cards */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px' }}>
-            {vehicles.map((v) => {
+            {vehiclesList.map((v) => {
               const isSelected = selectedVan === v.id;
               const isWarning = v.motDays <= 30;
               return (
@@ -737,6 +824,194 @@ export const FleetTab: React.FC = () => {
                 <ArrowRight size={16} />
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Onboard New Vehicle Modal */}
+      {isOnboardModalOpen && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'rgba(15, 23, 42, 0.7)',
+          backdropFilter: 'blur(4px)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 9999,
+          padding: '20px'
+        }}>
+          <div style={{
+            background: '#ffffff',
+            borderRadius: '24px',
+            maxWidth: '560px',
+            width: '100%',
+            maxHeight: '90vh',
+            overflowY: 'auto',
+            padding: '28px',
+            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+            border: '1px solid #e2e8f0'
+          }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', paddingBottom: '16px', borderBottom: '1px solid #f1f5f9' }}>
+              <div>
+                <span style={{ background: '#ecfdf5', color: '#0d6942', padding: '3px 10px', borderRadius: '9999px', fontSize: '11px', fontWeight: 800 }}>
+                  FLEET ASSET REGISTRATION
+                </span>
+                <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#0f172a', margin: '6px 0 0 0' }}>
+                  Onboard Commercial Fleet Vehicle
+                </h3>
+              </div>
+              <button
+                onClick={() => setIsOnboardModalOpen(false)}
+                style={{ background: '#f1f5f9', border: 'none', borderRadius: '50%', width: '32px', height: '32px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+              >
+                <X size={18} color="#64748b" />
+              </button>
+            </div>
+
+            <form onSubmit={handleOnboardVehicle} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: '11px', fontWeight: 700, color: '#475569', marginBottom: '4px' }}>
+                    REGISTRATION PLATE *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. KR24 XYZ"
+                    value={onboardReg}
+                    onChange={(e) => setOnboardReg(e.target.value.toUpperCase())}
+                    style={{ width: '100%', padding: '10px', borderRadius: '10px', border: '1px solid #cbd5e1', fontSize: '13px', fontWeight: 800, fontFamily: 'monospace' }}
+                  />
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', fontSize: '11px', fontWeight: 700, color: '#475569', marginBottom: '4px' }}>
+                    COMPANY ENTITY
+                  </label>
+                  <select
+                    value={onboardCompany}
+                    onChange={(e) => setOnboardCompany(e.target.value)}
+                    style={{ width: '100%', padding: '10px', borderRadius: '10px', border: '1px solid #cbd5e1', fontSize: '13px', background: '#ffffff' }}
+                  >
+                    <option value="MS Herrig Ltd">MS Herrig Ltd</option>
+                    <option value="TGB Services Ltd">TGB Services Ltd</option>
+                    <option value="GoConnect Partnership">GoConnect Partnership</option>
+                  </select>
+                </div>
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: '11px', fontWeight: 700, color: '#475569', marginBottom: '4px' }}>
+                    MAKE & MODEL
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="Mercedes Sprinter 315 CDI"
+                    value={onboardModel}
+                    onChange={(e) => setOnboardModel(e.target.value)}
+                    style={{ width: '100%', padding: '10px', borderRadius: '10px', border: '1px solid #cbd5e1', fontSize: '13px' }}
+                  />
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', fontSize: '11px', fontWeight: 700, color: '#475569', marginBottom: '4px' }}>
+                    FUEL TYPE
+                  </label>
+                  <select
+                    value={onboardFuel}
+                    onChange={(e) => setOnboardFuel(e.target.value as any)}
+                    style={{ width: '100%', padding: '10px', borderRadius: '10px', border: '1px solid #cbd5e1', fontSize: '13px', background: '#ffffff' }}
+                  >
+                    <option value="Diesel">Diesel</option>
+                    <option value="Electric">Electric</option>
+                  </select>
+                </div>
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: '11px', fontWeight: 700, color: '#475569', marginBottom: '4px' }}>
+                    ASSIGNED DRIVER
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Ronaldo Luiz Silva (DR85899)"
+                    value={onboardDriver}
+                    onChange={(e) => setOnboardDriver(e.target.value)}
+                    style={{ width: '100%', padding: '10px', borderRadius: '10px', border: '1px solid #cbd5e1', fontSize: '13px' }}
+                  />
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', fontSize: '11px', fontWeight: 700, color: '#475569', marginBottom: '4px' }}>
+                    STARTING ODOMETER (MI)
+                  </label>
+                  <input
+                    type="number"
+                    value={onboardMileage}
+                    onChange={(e) => setOnboardMileage(e.target.value)}
+                    style={{ width: '100%', padding: '10px', borderRadius: '10px', border: '1px solid #cbd5e1', fontSize: '13px' }}
+                  />
+                </div>
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: '11px', fontWeight: 700, color: '#475569', marginBottom: '4px' }}>
+                    MONTHLY FINANCE / LEASE (£)
+                  </label>
+                  <input
+                    type="text"
+                    value={onboardFinance}
+                    onChange={(e) => setOnboardFinance(e.target.value)}
+                    placeholder="£450.00"
+                    style={{ width: '100%', padding: '10px', borderRadius: '10px', border: '1px solid #cbd5e1', fontSize: '13px' }}
+                  />
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', fontSize: '11px', fontWeight: 700, color: '#475569', marginBottom: '4px' }}>
+                    MOT DAYS REMAINING
+                  </label>
+                  <input
+                    type="number"
+                    value={onboardMotDays}
+                    onChange={(e) => setOnboardMotDays(e.target.value)}
+                    style={{ width: '100%', padding: '10px', borderRadius: '10px', border: '1px solid #cbd5e1', fontSize: '13px' }}
+                  />
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                style={{
+                  width: '100%',
+                  padding: '12px',
+                  borderRadius: '12px',
+                  background: '#0d6942',
+                  color: '#ffffff',
+                  fontWeight: 700,
+                  fontSize: '14px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '8px',
+                  boxShadow: '0 6px 16px rgba(13, 105, 66, 0.25)',
+                  marginTop: '10px',
+                  border: 'none',
+                  cursor: 'pointer'
+                }}
+              >
+                <span>Complete Vehicle Onboarding</span>
+                <CheckCircle2 size={16} />
+              </button>
+            </form>
           </div>
         </div>
       )}

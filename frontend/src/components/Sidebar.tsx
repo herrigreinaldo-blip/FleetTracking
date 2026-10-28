@@ -33,6 +33,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { id: 'analytics', label: 'Executive Dashboard', icon: LayoutGrid },
     { id: 'calendar', label: 'Roster Matrix', icon: Calendar },
     { id: 'fleet', label: 'Fleet & Escrows', icon: Truck },
+    { id: 'riders', label: 'Drivers & Subcontractors', icon: Users },
     { id: 'finance', label: 'Finance & P&L', icon: Building2 },
     { id: 'payroll', label: 'Driver Payroll', icon: CreditCard },
     { id: 'vat', label: 'HMRC VAT Returns', icon: Receipt },
