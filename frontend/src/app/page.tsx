@@ -3,18 +3,23 @@
 import React, { useState, useEffect } from 'react';
 import { Navbar } from '../components/Navbar';
 import { Sidebar, MobileBottomNav } from '../components/Sidebar';
+import { CalendarTab } from '../components/CalendarTab';
+import { FleetTab } from '../components/FleetTab';
+import { FinanceTab } from '../components/FinanceTab';
+import { PayrollTab } from '../components/PayrollTab';
+import { VatTab } from '../components/VatTab';
+import { AuditTab } from '../components/AuditTab';
 import { AnalyticsTab } from '../components/AnalyticsTab';
 import { RidersTab } from '../components/RidersTab';
 import { PackagesTab } from '../components/PackagesTab';
 import { InvoicesTab } from '../components/InvoicesTab';
-import { FinanceTab } from '../components/FinanceTab';
 import { SalesTab } from '../components/SalesTab';
 import { AuthModal } from '../components/AuthModal';
 import { AuthResponse, api } from '../services/api';
 import { Lock, Mail, ArrowRight, ShieldCheck, Truck, Package, CheckCircle2 } from 'lucide-react';
 
 export default function Home() {
-  const [activeTab, setActiveTab] = useState('analytics');
+  const [activeTab, setActiveTab] = useState('calendar');
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   
   // Login form state for gated landing screen
@@ -27,24 +32,27 @@ export default function Home() {
   const [loginLoading, setLoginLoading] = useState(false);
   const [loginError, setLoginError] = useState<string | null>(null);
 
+  const [isMounted, setIsMounted] = useState(false);
   const [currentUser, setCurrentUser] = useState<{
     email: string;
     fullName: string;
     roles: string[];
     token: string;
-  } | null>(() => {
-    if (typeof window === 'undefined') return null;
+  } | null>(null);
+
+  // Safely restore persisted session only after client-side hydration mounts
+  useEffect(() => {
+    setIsMounted(true);
     try {
       const savedToken = localStorage.getItem('fleet_token');
       const savedUser = localStorage.getItem('fleet_user');
       if (savedToken && savedUser) {
-        return { ...JSON.parse(savedUser), token: savedToken };
+        setCurrentUser({ ...JSON.parse(savedUser), token: savedToken });
       }
     } catch {
-      return null;
+      // Storage error
     }
-    return null;
-  });
+  }, []);
 
   // Verify active token asynchronously with backend API
   useEffect(() => {
@@ -124,6 +132,11 @@ export default function Home() {
     setPasswordInput(pass);
     setLoginError(null);
   };
+
+  // Prevent SSR/client hydration mismatch
+  if (!isMounted) {
+    return null;
+  }
 
   // =========================================================================
   // GATED VIEW: If NOT logged in, show dedicated full-screen Sign In Portal
@@ -454,47 +467,79 @@ export default function Home() {
             <span style={{ display: 'block', fontSize: '11px', fontWeight: 700, letterSpacing: '0.5px', color: '#94a3b8', textAlign: 'center', marginBottom: '10px' }}>
               QUICK DEMO ACCESS
             </span>
-            <div style={{ display: 'flex', gap: '8px', justifyContent: 'center', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'center' }}>
               <button
                 type="button"
-                onClick={() => setGateCredentials('herrigreinaldo@gmail.com', '132Careras@!')}
+                onClick={() => handleAuthSuccess({ 
+                  token: 'preview_mock_token', 
+                  email: 'herrigreinaldo@gmail.com', 
+                  fullName: 'Reinaldo Herrig', 
+                  roles: ['Admin', 'Director'],
+                  expiresAt: new Date(Date.now() + 86400000).toISOString()
+                })}
                 style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '5px',
-                  padding: '7px 14px',
+                  width: '100%',
+                  padding: '9px 16px',
                   borderRadius: '9999px',
-                  background: '#f0fdf4',
-                  color: '#15803d',
-                  fontSize: '11px',
-                  fontWeight: 700,
-                  border: '1px solid #bbf7d0',
-                  cursor: 'pointer'
+                  background: 'linear-gradient(135deg, #0d6942 0%, #15803d 100%)',
+                  color: '#ffffff',
+                  fontSize: '12px',
+                  fontWeight: 800,
+                  border: 'none',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '6px',
+                  boxShadow: '0 4px 14px rgba(13, 105, 66, 0.3)'
                 }}
               >
-                <ShieldCheck size={14} color="#15803d" />
-                <span>Admin (Reinaldo)</span>
+                <ShieldCheck size={15} />
+                <span>Instant Client Look & Feel Preview (All Tabs Unlocked)</span>
               </button>
-              <button
-                type="button"
-                onClick={() => setGateCredentials('delivery@deliveryfinance.com', 'Delivery@123!')}
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '5px',
-                  padding: '7px 14px',
-                  borderRadius: '9999px',
-                  background: '#ecfdf5',
-                  color: '#065f46',
-                  fontSize: '11px',
-                  fontWeight: 700,
-                  border: '1px solid #a7f3d0',
-                  cursor: 'pointer'
-                }}
-              >
-                <Truck size={14} color="#065f46" />
-                <span>Delivery Rider</span>
-              </button>
+
+              <div style={{ display: 'flex', gap: '8px', justifyContent: 'center', flexWrap: 'wrap', width: '100%' }}>
+                <button
+                  type="button"
+                  onClick={() => setGateCredentials('herrigreinaldo@gmail.com', '132Careras@!')}
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '5px',
+                    padding: '7px 14px',
+                    borderRadius: '9999px',
+                    background: '#f0fdf4',
+                    color: '#15803d',
+                    fontSize: '11px',
+                    fontWeight: 700,
+                    border: '1px solid #bbf7d0',
+                    cursor: 'pointer'
+                  }}
+                >
+                  <ShieldCheck size={14} color="#15803d" />
+                  <span>Admin Fill</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setGateCredentials('delivery@deliveryfinance.com', 'Delivery@123!')}
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '5px',
+                    padding: '7px 14px',
+                    borderRadius: '9999px',
+                    background: '#ecfdf5',
+                    color: '#065f46',
+                    fontSize: '11px',
+                    fontWeight: 700,
+                    border: '1px solid #a7f3d0',
+                    cursor: 'pointer'
+                  }}
+                >
+                  <Truck size={14} color="#065f46" />
+                  <span>Driver Fill</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -552,7 +597,13 @@ export default function Home() {
         />
 
         {/* Tab Content Display */}
-        <main style={{ flex: 1, minWidth: 0 }}>
+        <main style={{ flex: 1, minWidth: 0, padding: '0 24px 32px 0' }}>
+          {activeTab === 'calendar' && <CalendarTab />}
+          {activeTab === 'fleet' && <FleetTab />}
+          {activeTab === 'finance' && <FinanceTab />}
+          {activeTab === 'payroll' && <PayrollTab />}
+          {activeTab === 'vat' && <VatTab />}
+          {activeTab === 'audit' && <AuditTab />}
           {activeTab === 'analytics' && (
             <AnalyticsTab 
               userName={currentUser?.fullName || 'Reinaldo'} 
@@ -562,7 +613,6 @@ export default function Home() {
           {activeTab === 'riders' && <RidersTab />}
           {activeTab === 'packages' && <PackagesTab />}
           {activeTab === 'invoices' && <InvoicesTab />}
-          {activeTab === 'finance' && <FinanceTab />}
           {activeTab === 'sales' && <SalesTab />}
         </main>
       </div>

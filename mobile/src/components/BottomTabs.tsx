@@ -12,12 +12,11 @@ export const BottomTabs: React.FC<BottomTabsProps> = ({
   onSelectTab,
 }) => {
   const tabs = [
-    { id: 'analytics', label: 'Dashboard', icon: 'grid' as const },
-    { id: 'riders', label: 'Riders', icon: 'people' as const },
-    { id: 'packages', label: 'Packages', icon: 'cube' as const },
-    { id: 'invoices', label: 'Invoices', icon: 'document-text' as const },
-    { id: 'finance', label: 'Finance', icon: 'wallet' as const },
-    { id: 'sales', label: 'Sales', icon: 'trending-up' as const },
+    { id: 'calendar', label: 'Roster', icon: 'calendar-outline' as const, activeIcon: 'calendar' as const },
+    { id: 'fleet', label: 'Fleet', icon: 'car-outline' as const, activeIcon: 'car' as const },
+    { id: 'finance', label: 'Finance', icon: 'business-outline' as const, activeIcon: 'business' as const },
+    { id: 'payroll', label: 'Payroll', icon: 'card-outline' as const, activeIcon: 'card' as const },
+    { id: 'vat', label: 'VAT/Audit', icon: 'shield-checkmark-outline' as const, activeIcon: 'shield-checkmark' as const },
   ];
 
   return (
@@ -32,8 +31,8 @@ export const BottomTabs: React.FC<BottomTabsProps> = ({
           >
             <View style={[styles.iconContainer, isActive && styles.iconActive]}>
               <Ionicons
-                name={tab.icon}
-                size={18}
+                name={isActive ? tab.activeIcon : tab.icon}
+                size={17}
                 color={isActive ? '#ffffff' : '#64748b'}
               />
             </View>
@@ -53,44 +52,40 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-around',
     backgroundColor: '#ffffff',
-    paddingVertical: 8,
-    paddingBottom: 22,
+    paddingVertical: 6,
+    paddingBottom: 20,
     borderTopWidth: 1,
-    borderTopColor: '#f1f5f9',
+    borderTopColor: '#e2e8f0',
     elevation: 8,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: -2 },
     shadowOpacity: 0.05,
-    shadowRadius: 8,
+    shadowRadius: 6,
   },
   tabBtn: {
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 3,
     paddingHorizontal: 4,
+    flex: 1,
   },
   iconContainer: {
-    width: 34,
-    height: 34,
-    borderRadius: 17,
+    width: 32,
+    height: 32,
+    borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',
   },
   iconActive: {
     backgroundColor: '#0d6942',
-    elevation: 3,
-    shadowColor: '#0d6942',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
   },
   tabLabel: {
     fontSize: 10,
     fontWeight: '600',
     color: '#64748b',
+    marginTop: 2,
   },
   labelActive: {
     color: '#0d6942',
-    fontWeight: '700',
+    fontWeight: '800',
   },
 });

@@ -1,7 +1,7 @@
 'use client';
 
-import React from 'react';
-import { Search, Bell, LogIn, LogOut, ChevronDown } from 'lucide-react';
+import React, { useState } from 'react';
+import { Search, Bell, LogIn, LogOut, ChevronDown, Building2, AlertTriangle, ShieldCheck } from 'lucide-react';
 
 interface NavbarProps {
   activeTab: string;
@@ -18,17 +18,21 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenAuth,
   onLogout,
 }) => {
+  const [selectedEntity, setSelectedEntity] = useState('MS Herrig Ltd');
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
+
   const tabs = [
-    { id: 'analytics', label: 'Dashboard' },
-    { id: 'riders', label: 'Delivery Riders' },
-    { id: 'packages', label: 'Packages' },
-    { id: 'invoices', label: 'Invoices' },
-    { id: 'finance', label: 'Finance' },
-    { id: 'sales', label: 'Sales' },
+    { id: 'analytics', label: 'Overview' },
+    { id: 'calendar', label: 'Roster Matrix' },
+    { id: 'fleet', label: 'Fleet & Escrow' },
+    { id: 'finance', label: 'Finance & P&L' },
+    { id: 'payroll', label: 'Driver Payroll' },
+    { id: 'vat', label: 'HMRC VAT' },
+    { id: 'audit', label: 'DPD Auditing' },
   ];
 
   return (
-    <header 
+    <header
       className="app-navbar"
       style={{
         display: 'flex',
@@ -36,74 +40,112 @@ export const Navbar: React.FC<NavbarProps> = ({
         justifyContent: 'space-between',
         background: '#ffffff',
         border: '1px solid #eef2f6',
-        boxShadow: '0 8px 24px -6px rgba(18, 24, 38, 0.04)'
+        boxShadow: '0 8px 24px -6px rgba(18, 24, 38, 0.04)',
+        padding: '12px 24px',
+        position: 'sticky',
+        top: 0,
+        zIndex: 50
       }}
     >
-      {/* Brand Logo */}
-      <div 
-        onClick={() => setActiveTab('analytics')}
-        style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}
-      >
-        <div style={{
-          width: '36px',
-          height: '36px',
-          borderRadius: '50%',
-          background: 'linear-gradient(135deg, #0d6942 0%, #15803d 100%)',
+      {/* Brand Logo & Multi-Company Badge */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '18px' }}>
+        <div
+          onClick={() => setActiveTab('calendar')}
+          style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}
+        >
+          <div style={{
+            width: '38px',
+            height: '38px',
+            borderRadius: '12px',
+            background: 'linear-gradient(135deg, #0d6942 0%, #15803d 100%)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            boxShadow: '0 4px 12px rgba(13, 105, 66, 0.25)',
+            position: 'relative',
+            flexShrink: 0
+          }}>
+            <div style={{
+              width: '18px',
+              height: '18px',
+              border: '3px solid #ffffff',
+              borderRadius: '50%',
+              borderTopColor: 'transparent'
+            }} />
+            <div style={{
+              position: 'absolute',
+              width: '6px',
+              height: '6px',
+              background: '#34d399',
+              borderRadius: '50%'
+            }} />
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <span style={{
+              fontSize: '17px',
+              fontWeight: 800,
+              letterSpacing: '-0.3px',
+              color: '#102a1c',
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
+              lineHeight: 1.2
+            }}>
+              Delivery Finance
+            </span>
+            <span style={{
+              fontSize: '9px',
+              fontWeight: 700,
+              letterSpacing: '0.8px',
+              textTransform: 'uppercase',
+              color: '#0d6942'
+            }}>
+              DPD Multi-Franchise Platform
+            </span>
+          </div>
+        </div>
+
+        {/* Company Switcher Pill */}
+        <div className="desktop-only" style={{
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'center',
-          boxShadow: '0 4px 12px rgba(13, 105, 66, 0.25)',
-          position: 'relative',
-          flexShrink: 0
+          gap: '6px',
+          background: '#f8fafc',
+          padding: '4px 10px',
+          borderRadius: '9999px',
+          border: '1px solid #e2e8f0'
         }}>
-          <div style={{
-            width: '18px',
-            height: '18px',
-            border: '3px solid #ffffff',
-            borderRadius: '50%',
-            borderTopColor: 'transparent'
-          }} />
-          <div style={{
-            position: 'absolute',
-            width: '6px',
-            height: '6px',
-            background: '#34d399',
-            borderRadius: '50%'
-          }} />
-        </div>
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <span style={{
-            fontSize: '17px',
-            fontWeight: '800',
-            letterSpacing: '-0.3px',
-            color: '#102a1c',
-            fontFamily: "'Plus Jakarta Sans', sans-serif",
-            lineHeight: 1.2
-          }}>
-            Fleet Tracking
-          </span>
-          <span style={{
-            fontSize: '9px',
-            fontWeight: '700',
-            letterSpacing: '0.8px',
-            textTransform: 'uppercase',
-            color: '#0d6942'
-          }}>
-            Management System
-          </span>
+          <Building2 size={13} color="#0d6942" />
+          <select
+            value={selectedEntity}
+            onChange={(e) => setSelectedEntity(e.target.value)}
+            style={{
+              border: 'none',
+              background: 'transparent',
+              fontSize: '11px',
+              fontWeight: 700,
+              color: '#1e293b',
+              cursor: 'pointer',
+              outline: 'none'
+            }}
+          >
+            <option value="MS Herrig Ltd">MS Herrig Ltd (Primary)</option>
+            <option value="TGB Services and Solutions Ltd">TGB Services and Solutions Ltd</option>
+            <option value="GoConnect">GoConnect Partnership</option>
+            <option value="Consolidated">Consolidated (All 3 Entities)</option>
+          </select>
         </div>
       </div>
 
       {/* Pill Navigation Bar - Desktop only */}
-      <nav 
+      <nav
         className="desktop-only"
         style={{
+          display: 'flex',
           alignItems: 'center',
           background: '#f8fafc',
           borderRadius: '9999px',
-          padding: '5px 8px',
+          padding: '4px 6px',
           border: '1px solid #e2e8f0',
-          gap: '4px'
+          gap: '2px'
         }}
       >
         {tabs.map((tab) => {
@@ -113,14 +155,16 @@ export const Navbar: React.FC<NavbarProps> = ({
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               style={{
-                padding: '8px 18px',
+                padding: '7px 14px',
                 borderRadius: '9999px',
-                fontSize: '14px',
-                fontWeight: isActive ? 600 : 500,
+                fontSize: '13px',
+                fontWeight: isActive ? 700 : 500,
                 color: isActive ? '#0d6942' : '#64748b',
                 backgroundColor: isActive ? '#ffffff' : 'transparent',
-                boxShadow: isActive ? '0 2px 8px rgba(0, 0, 0, 0.05)' : 'none',
-                transition: 'all 0.2s ease',
+                boxShadow: isActive ? '0 2px 8px rgba(0, 0, 0, 0.06)' : 'none',
+                border: 'none',
+                cursor: 'pointer',
+                transition: 'all 0.15s ease',
               }}
             >
               {tab.label}
@@ -130,58 +174,79 @@ export const Navbar: React.FC<NavbarProps> = ({
       </nav>
 
       {/* Right Tools & User Profile */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-        <button 
-          title="Search"
-          className="desktop-only"
-          style={{
-            width: '36px',
-            height: '36px',
-            borderRadius: '50%',
-            background: '#f8fafc',
-            border: '1px solid #e2e8f0',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: '#475569',
-            transition: 'background 0.2s',
-          }}
-        >
-          <Search size={16} />
-        </button>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+        {/* Compliance Alert Bell */}
+        <div style={{ position: 'relative' }}>
+          <button
+            title="Compliance Alerts"
+            onClick={() => setIsAlertOpen(!isAlertOpen)}
+            style={{
+              width: '36px',
+              height: '36px',
+              borderRadius: '50%',
+              background: '#f8fafc',
+              border: '1px solid #e2e8f0',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: '#475569',
+              position: 'relative',
+              cursor: 'pointer'
+            }}
+          >
+            <Bell size={16} />
+            <span style={{
+              position: 'absolute',
+              top: '5px',
+              right: '5px',
+              width: '16px',
+              height: '16px',
+              background: '#ef4444',
+              borderRadius: '50%',
+              color: '#fff',
+              fontSize: '10px',
+              fontWeight: 800,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}>
+              2
+            </span>
+          </button>
 
-        <button 
-          title="Notifications"
-          style={{
-            width: '36px',
-            height: '36px',
-            borderRadius: '50%',
-            background: '#f8fafc',
-            border: '1px solid #e2e8f0',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: '#475569',
-            position: 'relative'
-          }}
-        >
-          <Bell size={16} />
-          <span style={{
-            position: 'absolute',
-            top: '6px',
-            right: '7px',
-            width: '7px',
-            height: '7px',
-            background: '#10b981',
-            borderRadius: '50%',
-            border: '1.5px solid #ffffff'
-          }} />
-        </button>
+          {/* Quick Alert Dropdown */}
+          {isAlertOpen && (
+            <div style={{
+              position: 'absolute',
+              top: '46px',
+              right: 0,
+              width: '280px',
+              background: '#ffffff',
+              borderRadius: '16px',
+              boxShadow: '0 10px 30px rgba(0,0,0,0.15)',
+              border: '1px solid #e2e8f0',
+              padding: '14px',
+              zIndex: 100
+            }}>
+              <div style={{ fontSize: '12px', fontWeight: 800, color: '#0f172a', marginBottom: '8px' }}>
+                Active Compliance Alerts
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '11px' }}>
+                <div style={{ padding: '8px', background: '#fff1f2', borderRadius: '8px', border: '1px solid #fecaca', color: '#991b1b' }}>
+                  <strong>VN71 DPD:</strong> MOT due in 18 days (Expires: 15-Nov)
+                </div>
+                <div style={{ padding: '8px', background: '#fffbeb', borderRadius: '8px', border: '1px solid #fde68a', color: '#92400e' }}>
+                  <strong>Route 593:</strong> DPD underpayment -£57.42 pending dispute
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
 
         {currentUser ? (
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginLeft: '2px' }}>
-            <div 
-              onClick={onLogout}
-              title={`Logged in as ${currentUser.email} (${currentUser.roles.join(', ') || 'User'}). Click to Sign Out.`}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <div
+              title={`Logged in as ${currentUser.email}`}
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -190,7 +255,6 @@ export const Navbar: React.FC<NavbarProps> = ({
                 padding: '4px 10px 4px 5px',
                 borderRadius: '9999px',
                 border: '1px solid #e2e8f0',
-                cursor: 'pointer'
               }}
             >
               <div style={{
@@ -205,17 +269,16 @@ export const Navbar: React.FC<NavbarProps> = ({
                 fontWeight: 700,
                 fontSize: '13px'
               }}>
-                {currentUser.fullName ? currentUser.fullName[0].toUpperCase() : 'U'}
+                {currentUser.fullName ? currentUser.fullName[0].toUpperCase() : 'R'}
               </div>
-              <div className="desktop-only" style={{ flexDirection: 'column' }}>
-                <span style={{ fontSize: '12px', fontWeight: 600, color: '#1e293b' }}>
-                  {currentUser.fullName || currentUser.email.split('@')[0]}
+              <div className="desktop-only" style={{ display: 'flex', flexDirection: 'column' }}>
+                <span style={{ fontSize: '12px', fontWeight: 700, color: '#1e293b', lineHeight: 1.1 }}>
+                  {currentUser.fullName || 'Reinaldo'}
                 </span>
-                <span style={{ fontSize: '10px', color: '#10b981', fontWeight: 600 }}>
-                  {currentUser.roles[0] || 'Member'}
+                <span style={{ fontSize: '10px', color: '#0d6942', fontWeight: 700 }}>
+                  Director Admin
                 </span>
               </div>
-              <ChevronDown size={14} color="#94a3b8" />
             </div>
 
             <button
@@ -230,7 +293,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 background: '#fee2e2',
                 color: '#b91c1c',
                 fontSize: '11px',
-                fontWeight: 600,
+                fontWeight: 700,
                 border: '1px solid #fecaca',
                 cursor: 'pointer',
                 transition: 'all 0.2s'
@@ -251,8 +314,10 @@ export const Navbar: React.FC<NavbarProps> = ({
               borderRadius: '9999px',
               background: '#0d6942',
               color: '#ffffff',
-              fontWeight: 600,
+              fontWeight: 700,
               fontSize: '12px',
+              border: 'none',
+              cursor: 'pointer',
               boxShadow: '0 4px 12px rgba(13, 105, 66, 0.2)'
             }}
           >

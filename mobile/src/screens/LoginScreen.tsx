@@ -225,14 +225,14 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onSuccess, onClose }) 
 
         {/* Quick Demo Logins */}
         <View style={styles.demoSection}>
-          <Text style={styles.demoTitle}>QUICK DEMO ROLES</Text>
+          <Text style={styles.demoTitle}>QUICK CREDENTIAL FILL</Text>
           <View style={styles.demoButtons}>
             <TouchableOpacity
               onPress={() => setDemoUser('herrigreinaldo@gmail.com', '132Careras@!')}
               style={[styles.demoBtn, { borderColor: '#bbf7d0', backgroundColor: '#f0fdf4', flexDirection: 'row', alignItems: 'center', gap: 4 }]}
             >
               <Ionicons name="shield-checkmark" size={12} color="#15803d" />
-              <Text style={{ color: '#15803d', fontSize: 11, fontWeight: '700' }}>Admin (Reinaldo)</Text>
+              <Text style={{ color: '#15803d', fontSize: 11, fontWeight: '700' }}>Admin</Text>
             </TouchableOpacity>
 
             <TouchableOpacity

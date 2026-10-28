@@ -79,3 +79,15 @@ All services communicate through unified environment variables:
 2. **Async Everywhere:** All database and I/O operations must be asynchronous (`async` / `await` with `Task`).
 3. **No Redundancy:** Do not duplicate models or queries. Keep DTOs separated from domain models.
 4. **Environment Fallbacks:** Never hardcode secret keys or hostnames directly in code; always use `IConfiguration` or `process.env`.
+
+---
+
+## Mandatory Engineering Rule: Post-Story Line-by-Line Audit & Dry Run
+
+After completing **ANY USER STORY**, the engineer or agent MUST NOT immediately mark it complete or move to the next task. You MUST execute the following 4-step audit:
+
+1. **Line-by-Line Dry Run:** Read through every modified and newly written line of code. Trace variable flows, null safety, boundary conditions, async task handling, and transaction disposal.
+2. **Function-by-Function Contract Verification:** Verify that every service method respects parameter contracts, exception-throwing conventions, DTO separation, and clean architecture boundaries (Controllers never call DbContext; Repositories never execute business rules).
+3. **Ripple Effect & Side-Effect Assessment:** Inspect whether modifying this entity/endpoint alters or breaks downstream modules (e.g., changing shift stop rates affects payroll calculations; updating bank transactions impacts quarterly VAT totals; vehicle mileage updates trigger compliance intervals).
+4. **Automated & Manual Verification Run:** Execute test suites or curl/http invocations to verify that compilation succeeds with zero warnings, migrations apply cleanly, and HTTP status codes match the specification.
+

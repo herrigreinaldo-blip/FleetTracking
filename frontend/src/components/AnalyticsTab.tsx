@@ -15,7 +15,8 @@ import {
   Truck,
   CheckCircle2,
   Navigation,
-  ShieldCheck
+  ShieldCheck,
+  ChevronDown
 } from 'lucide-react';
 
 interface AnalyticsTabProps {
@@ -86,7 +87,7 @@ export const AnalyticsTab: React.FC<AnalyticsTabProps> = ({
           }}>
             <Calendar size={15} color="#64748b" />
             <span>29 Jun, 2025 - 29 August, 2025</span>
-            <span style={{ fontSize: '10px', color: '#94a3b8' }}>▼</span>
+            <ChevronDown size={13} color="#94a3b8" />
           </div>
 
           {/* Add New Wallet Button */}

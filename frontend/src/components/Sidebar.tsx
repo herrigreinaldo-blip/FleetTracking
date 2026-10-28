@@ -1,13 +1,15 @@
 'use client';
 
 import React from 'react';
-import { 
-  LayoutGrid, 
-  Wallet, 
-  Package, 
-  FileText, 
-  Percent, 
-  Settings, 
+import {
+  Calendar,
+  Truck,
+  Building2,
+  CreditCard,
+  Receipt,
+  ShieldAlert,
+  LayoutGrid,
+  Settings,
   LogOut,
   Users
 } from 'lucide-react';
@@ -27,14 +29,25 @@ export const Sidebar: React.FC<SidebarProps> = ({
   isLoggedIn,
   onOpenAuth,
 }) => {
+  const navItems = [
+    { id: 'analytics', label: 'Executive Dashboard', icon: LayoutGrid },
+    { id: 'calendar', label: 'Roster Matrix', icon: Calendar },
+    { id: 'fleet', label: 'Fleet & Escrows', icon: Truck },
+    { id: 'finance', label: 'Finance & P&L', icon: Building2 },
+    { id: 'payroll', label: 'Driver Payroll', icon: CreditCard },
+    { id: 'vat', label: 'HMRC VAT Returns', icon: Receipt },
+    { id: 'audit', label: 'Carrier Auditing', icon: ShieldAlert },
+  ];
+
   return (
-    <aside 
+    <aside
       className="desktop-sidebar"
       style={{
         width: '74px',
         background: '#ffffff',
         borderRadius: '32px',
         padding: '20px 0',
+        display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -47,135 +60,40 @@ export const Sidebar: React.FC<SidebarProps> = ({
       }}
     >
       {/* Top Navigation Group */}
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px' }}>
-        {/* Main Dashboard / Analytics */}
-        <button
-          onClick={() => setActiveTab('analytics')}
-          title="Dashboard"
-          style={{
-            width: '46px',
-            height: '46px',
-            borderRadius: '50%',
-            background: activeTab === 'analytics' ? '#0d6942' : 'transparent',
-            color: activeTab === 'analytics' ? '#ffffff' : '#64748b',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            boxShadow: activeTab === 'analytics' ? '0 6px 16px rgba(13, 105, 66, 0.3)' : 'none',
-            transition: 'all 0.2s ease',
-          }}
-        >
-          <LayoutGrid size={20} />
-        </button>
-
-        {/* Delivery Riders */}
-        <button
-          onClick={() => setActiveTab('riders')}
-          title="Delivery Riders"
-          style={{
-            width: '46px',
-            height: '46px',
-            borderRadius: '50%',
-            background: activeTab === 'riders' ? '#0d6942' : 'transparent',
-            color: activeTab === 'riders' ? '#ffffff' : '#64748b',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            boxShadow: activeTab === 'riders' ? '0 6px 16px rgba(13, 105, 66, 0.3)' : 'none',
-            transition: 'all 0.2s ease',
-          }}
-        >
-          <Users size={20} />
-        </button>
-
-        {/* Packages */}
-        <button
-          onClick={() => setActiveTab('packages')}
-          title="Packages"
-          style={{
-            width: '46px',
-            height: '46px',
-            borderRadius: '50%',
-            background: activeTab === 'packages' ? '#0d6942' : 'transparent',
-            color: activeTab === 'packages' ? '#ffffff' : '#64748b',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            boxShadow: activeTab === 'packages' ? '0 6px 16px rgba(13, 105, 66, 0.3)' : 'none',
-            transition: 'all 0.2s ease',
-          }}
-        >
-          <Package size={20} />
-        </button>
-
-        {/* Invoices */}
-        <button
-          onClick={() => setActiveTab('invoices')}
-          title="Invoices"
-          style={{
-            width: '46px',
-            height: '46px',
-            borderRadius: '50%',
-            background: activeTab === 'invoices' ? '#0d6942' : 'transparent',
-            color: activeTab === 'invoices' ? '#ffffff' : '#64748b',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            boxShadow: activeTab === 'invoices' ? '0 6px 16px rgba(13, 105, 66, 0.3)' : 'none',
-            transition: 'all 0.2s ease',
-          }}
-        >
-          <FileText size={20} />
-        </button>
-
-        {/* Divider */}
-        <div style={{ width: '32px', height: '1px', background: '#e2e8f0', margin: '4px 0' }} />
-
-        {/* Finance */}
-        <button
-          onClick={() => setActiveTab('finance')}
-          title="Finance & Payouts"
-          style={{
-            width: '46px',
-            height: '46px',
-            borderRadius: '50%',
-            background: activeTab === 'finance' ? '#0d6942' : 'transparent',
-            color: activeTab === 'finance' ? '#ffffff' : '#64748b',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            boxShadow: activeTab === 'finance' ? '0 6px 16px rgba(13, 105, 66, 0.3)' : 'none',
-            transition: 'all 0.2s ease',
-          }}
-        >
-          <Wallet size={20} />
-        </button>
-
-        {/* Sales */}
-        <button
-          onClick={() => setActiveTab('sales')}
-          title="Sales Analytics"
-          style={{
-            width: '46px',
-            height: '46px',
-            borderRadius: '50%',
-            background: activeTab === 'sales' ? '#0d6942' : 'transparent',
-            color: activeTab === 'sales' ? '#ffffff' : '#64748b',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            boxShadow: activeTab === 'sales' ? '0 6px 16px rgba(13, 105, 66, 0.3)' : 'none',
-            transition: 'all 0.2s ease',
-          }}
-        >
-          <Percent size={20} />
-        </button>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
+        {navItems.map(item => {
+          const Icon = item.icon;
+          const isActive = activeTab === item.id;
+          return (
+            <button
+              key={item.id}
+              onClick={() => setActiveTab(item.id)}
+              title={item.label}
+              style={{
+                width: '46px',
+                height: '46px',
+                borderRadius: '50%',
+                background: isActive ? '#0d6942' : 'transparent',
+                color: isActive ? '#ffffff' : '#64748b',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                border: 'none',
+                cursor: 'pointer',
+                boxShadow: isActive ? '0 6px 16px rgba(13, 105, 66, 0.3)' : 'none',
+                transition: 'all 0.2s ease',
+              }}
+            >
+              <Icon size={20} />
+            </button>
+          );
+        })}
       </div>
 
       {/* Bottom Group */}
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '14px' }}>
         <button
-          title="Settings"
+          title="System Settings"
           style={{
             width: '44px',
             height: '44px',
@@ -184,6 +102,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
+            background: 'transparent',
+            border: 'none',
+            cursor: 'pointer',
             transition: 'color 0.2s',
           }}
         >
@@ -202,6 +123,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
+              background: 'transparent',
+              border: 'none',
+              cursor: 'pointer',
               transition: 'background 0.2s',
             }}
           >
@@ -219,6 +143,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
+              background: 'transparent',
+              border: 'none',
+              cursor: 'pointer',
             }}
           >
             <LogOut size={20} style={{ transform: 'rotate(180deg)' }} />
@@ -239,12 +166,12 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
   setActiveTab,
 }) => {
   const items = [
-    { id: 'analytics', label: 'Dashboard', icon: LayoutGrid },
-    { id: 'riders', label: 'Riders', icon: Users },
-    { id: 'packages', label: 'Packages', icon: Package },
-    { id: 'invoices', label: 'Invoices', icon: FileText },
-    { id: 'finance', label: 'Finance', icon: Wallet },
-    { id: 'sales', label: 'Sales', icon: Percent },
+    { id: 'calendar', label: 'Roster', icon: Calendar },
+    { id: 'fleet', label: 'Fleet', icon: Truck },
+    { id: 'finance', label: 'Finance', icon: Building2 },
+    { id: 'payroll', label: 'Payroll', icon: CreditCard },
+    { id: 'vat', label: 'VAT', icon: Receipt },
+    { id: 'audit', label: 'Audit', icon: ShieldAlert },
   ];
 
   return (
@@ -267,4 +194,3 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
     </nav>
   );
 };
-

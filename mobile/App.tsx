@@ -2,18 +2,17 @@ import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { Header } from './src/components/Header';
-import { BottomTabs } from './src/components/BottomTabs';
-import { AnalyticsScreen } from './src/screens/AnalyticsScreen';
-import { RidersScreen } from './src/screens/RidersScreen';
-import { PackagesScreen } from './src/screens/PackagesScreen';
-import { InvoicesScreen } from './src/screens/InvoicesScreen';
+import { CalendarScreen } from './src/screens/CalendarScreen';
+import { FleetScreen } from './src/screens/FleetScreen';
 import { FinanceScreen } from './src/screens/FinanceScreen';
-import { SalesScreen } from './src/screens/SalesScreen';
+import { PayrollScreen } from './src/screens/PayrollScreen';
+import { VatAuditScreen } from './src/screens/VatAuditScreen';
 import { LoginScreen } from './src/screens/LoginScreen';
 import { AuthResponse } from './src/services/api';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState('analytics');
+  const [activeTab, setActiveTab] = useState('calendar');
+  const [searchQuery, setSearchQuery] = useState('');
   const [currentUser, setCurrentUser] = useState<{
     email: string;
     fullName: string;
@@ -26,7 +25,7 @@ export default function App() {
     setCurrentUser({
       token: res.token,
       email: res.email,
-      fullName: isReinaldo ? 'Reinaldo' : (res.fullName || res.email.split('@')[0]),
+      fullName: isReinaldo ? 'Reinaldo Herrig' : (res.fullName || res.email.split('@')[0]),
       roles: res.roles,
     });
   };
@@ -36,53 +35,43 @@ export default function App() {
   };
 
   // =========================================================================
-  // GATED VIEW: If not signed in, show full-screen Sign In
+  // GATED VIEW: If not signed in, show sleek Sign In Portal
   // =========================================================================
   if (!currentUser) {
     return (
       <View style={styles.container}>
         <StatusBar style="dark" />
-        <LoginScreen
-          onSuccess={handleAuthSuccess}
-        />
+        <LoginScreen onSuccess={handleAuthSuccess} />
       </View>
     );
   }
 
   // =========================================================================
-  // AUTHENTICATED VIEW: Full Fleet Tracking Management Dashboard
+  // AUTHENTICATED VIEW: Uncluttered Mobile Platform with Hamburger & Top Search
   // =========================================================================
   return (
     <View style={styles.container}>
       <StatusBar style="dark" />
 
-      {/* Top Header */}
+      {/* Top Header with Hamburger Navigation & Search Bar */}
       <Header
         userName={currentUser.fullName || 'Reinaldo'}
+        activeTab={activeTab}
+        onSelectTab={setActiveTab}
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
         isLoggedIn={true}
         onLogout={handleLogout}
       />
 
-      {/* Active Tab Screen */}
+      {/* Screen Content Feed with Minimal Navigation Cards */}
       <View style={styles.screenContainer}>
-        {activeTab === 'analytics' && (
-          <AnalyticsScreen
-            userName={currentUser.fullName || 'Reinaldo'}
-            onOpenWallet={() => {}}
-          />
-        )}
-        {activeTab === 'riders' && <RidersScreen />}
-        {activeTab === 'packages' && <PackagesScreen />}
-        {activeTab === 'invoices' && <InvoicesScreen />}
-        {activeTab === 'finance' && <FinanceScreen />}
-        {activeTab === 'sales' && <SalesScreen />}
+        {activeTab === 'calendar' && <CalendarScreen searchQuery={searchQuery} />}
+        {activeTab === 'fleet' && <FleetScreen searchQuery={searchQuery} />}
+        {activeTab === 'finance' && <FinanceScreen searchQuery={searchQuery} />}
+        {activeTab === 'payroll' && <PayrollScreen searchQuery={searchQuery} />}
+        {activeTab === 'vat' && <VatAuditScreen searchQuery={searchQuery} />}
       </View>
-
-      {/* Bottom Tabs Navigation */}
-      <BottomTabs
-        activeTab={activeTab}
-        onSelectTab={setActiveTab}
-      />
     </View>
   );
 }
